@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="Suite" parallel="classes" thread-count="2" preserve-order="true"> 
+ <test name="Test" preserve-order="true"> <!-- preserve-order="true" execute the methods or classes in the below order preserve-order="false" executes randomly -->
+ <!-- Note even if the preserve-order is true in parallel execution the class order will execute randomly  -->
+    <classes>    
+     <class name="parallel_test.TestScript1_DD"/>  
+     <class name="parallel_test.TestScript2"/>
+    </classes>
+  </test>  
+  
+  <test name="final_report"> <!-- preserve-order="true" execute the methods or classes in the below order preserve-order="false" executes randomly -->
+    <classes>    
+     <class name="parallel_test.FinalReport"/>
+    </classes>
+  </test>  
+  
+</suite>

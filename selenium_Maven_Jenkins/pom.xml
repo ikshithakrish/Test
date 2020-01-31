@@ -1,0 +1,225 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>MavenGitJenkins</groupId>
+  <artifactId>selenium</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <name>Selenium Project</name>
+  <description>this is sample project to demonstrate Maven, GitHub, Jenkins integration</description>
+  
+ <!--  NOTE: Ensure that installed JRE should point to JDK path:
+  Window -> Preferences -> Installed JREs  --> 
+<properties>
+  <testng.version>6.14.2</testng.version> <!-- ${testng.version} -->
+  <suiteFile></suiteFile>   <!--  get value from jenkins job for ${suiteFile}  variable name should be same-->
+ </properties>
+
+<!--    ********build Entry -BEGINs********* -->  
+ <build>
+  <plugins>
+   <plugin>
+    <groupId>org.apache.maven.plugins</groupId>   <!-- compile java source file -->
+    <artifactId>maven-compiler-plugin</artifactId>
+    <version>2.3.2</version>
+    <configuration>
+     <source>1.8</source>
+     <target>1.8</target>
+    </configuration>
+   </plugin>
+   <plugin>
+    <groupId>org.apache.maven.plugins</groupId>
+    <artifactId>maven-surefire-plugin</artifactId>  <!-- is to compile the Unit Test (i.e TestClasses in testng -->
+    <version>2.18.1</version>
+    <configuration>
+     <suiteXmlFiles>
+     <!--  <suiteXmlFile>testng.xml</suiteXmlFile>  -->
+     <suiteXmlFile>${suiteFile}</suiteXmlFile>   <!--  set as goal and options  in jenkins job: clean test -DsuiteFile=testng.xml (or) Suites\Jquery.xml  -->
+     </suiteXmlFiles>
+    </configuration>
+   </plugin>
+  </plugins>
+ </build>
+<!--    ********build Entry -ENDs********* --> 
+
+ <!--    Dependency Jars Entry -BEGINs -->   
+<dependencies>
+
+	<!-- this is for testng related jars (https://mvnrepository.com/artifact/org.testng/testng) -->
+	<!--  this will resolve the errors @Test, @BeforeTest annotations in testNG test classes -->
+	<dependency>  <!--  TestNg Dependency - BEGIN -->
+	    <groupId>org.testng</groupId>
+	    <artifactId>testng</artifactId>
+	    <version>${testng.version}</version>
+	   <!--  <scope>test</scope>  *********************IMPORTANT - change the scope from test to compile to avoid the 
+	   issues:  
+	   1.commons-exec-1.3.jar (java.lang.NoClassDefFoundError: org/apache/commons/exec/Executor) and 
+	   2.package org.testng.testng.xml does not exist******************************-->
+	   <scope>compile</scope>
+	</dependency>  <!--  TestNg Dependency - END -->
+	
+	<!-- **************log4j2 configuration Required
+		 log4j-1.2-api and log4j-core 
+		 log4j2.xml should be placed unde src/main/resources Note: file name(log4j2.xml) should not be changes
+	 -->
+	<!-- Note: testng dependency already include log4j so we use log4j-api to import org.apache.log4j.Logger -->
+	 <dependency> <!-- Log4j-api -BEGIN -->
+       <groupId>org.apache.logging.log4j</groupId> 
+       <artifactId>log4j-1.2-api</artifactId>
+       <version>2.11.0</version>
+    </dependency> <!-- Log4j-api -END -->
+	 <!-- 
+    [RemoteTestNG] detected TestNG version 6.14.2
+	ERROR StatusLogger No Log4j 2 configuration file found. Using default configuration (logging only errors to the console), or user programmatically provided configurations. Set system property 'log4j2.debug' to show Log4j 2 internal initialization logging. See https://logging.apache.org/log4j/2.x/manual/configuration.html for instructions on how to configure Log4j 2
+	 -->
+	 <!-- https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-core -->
+	<dependency>
+	    <groupId>org.apache.logging.log4j</groupId>
+	    <artifactId>log4j-core</artifactId>
+	    <version>2.11.0</version>
+	</dependency>
+	
+	<!--  SELENIUM DEPENDENCY - BEGINs -->
+	<!-- Note dont configure selenium-java / selenium-server to avoid the commons-exec-1.3.jar (java.lang.NoClassDefFoundError: org/apache/commons/exec/Executor) -->
+	<dependency>
+        <groupId>org.seleniumhq.selenium</groupId>
+        <artifactId>selenium-java</artifactId>
+        <version>3.141.59</version>
+    </dependency>
+   
+  <!-- 
+  <dependency>
+        <groupId>org.seleniumhq.selenium</groupId>
+        <artifactId>selenium-server</artifactId>
+        <version>3.141.59</version>
+    </dependency>
+    -->
+    
+  <!-- <dependency>
+		<groupId>org.seleniumhq.selenium</groupId>
+		<artifactId>selenium-api</artifactId>
+		<version>3.141.59</version>
+		<classifier/>
+		</dependency>
+	<dependency>
+		<groupId>org.seleniumhq.selenium</groupId>
+		<artifactId>selenium-chrome-driver</artifactId>
+		<version>3.141.59</version>
+		<classifier/>
+		</dependency>
+	<dependency>
+	<groupId>org.seleniumhq.selenium</groupId>
+	<artifactId>selenium-edge-driver</artifactId>
+	<version>3.141.59</version>
+	<classifier/>
+	</dependency>
+	<dependency>
+	<groupId>org.seleniumhq.selenium</groupId>
+	<artifactId>selenium-firefox-driver</artifactId>
+	<version>3.141.59</version>
+	<classifier/>
+	</dependency>
+	<dependency>
+	<groupId>org.seleniumhq.selenium</groupId>
+	<artifactId>selenium-ie-driver</artifactId>
+	<version>3.141.59</version>
+	<classifier/>
+	</dependency>
+	<dependency>
+	<groupId>org.seleniumhq.selenium</groupId>
+	<artifactId>selenium-opera-driver</artifactId>
+	<version>3.141.59</version>
+	<classifier/>
+	</dependency>
+	<dependency>
+	<groupId>org.seleniumhq.selenium</groupId>
+	<artifactId>selenium-remote-driver</artifactId>
+	<version>3.141.59</version>
+	<classifier/>
+	</dependency>
+	<dependency>
+	<groupId>org.seleniumhq.selenium</groupId>
+	<artifactId>selenium-safari-driver</artifactId>
+	<version>3.141.59</version>
+	<classifier/>
+	</dependency>
+	<dependency>
+	<groupId>org.seleniumhq.selenium</groupId>
+	<artifactId>selenium-support</artifactId>
+	<version>3.141.59</version>
+	<classifier/>
+	</dependency>
+	<dependency>
+	<groupId>net.bytebuddy</groupId>
+	<artifactId>byte-buddy</artifactId>
+	<version>1.8.15</version>
+	<classifier/>
+	</dependency> -->
+<!--   issue with commons-exec 1.3  -->
+<!--	<dependency>	
+	<groupId>org.apache.commons</groupId>
+	<artifactId>commons-exec</artifactId>
+	<version>1.3</version>
+	<classifier/>
+	</dependency>
+	
+	<dependency>
+	<groupId>com.google.guava</groupId>
+	<artifactId>guava</artifactId>
+	<version>25.0-jre</version>
+	<classifier/>
+	</dependency>
+	<dependency>
+	<groupId>com.squareup.okhttp3</groupId>
+	<artifactId>okhttp</artifactId>
+	<version>3.11.0</version>
+	<classifier/>
+	</dependency>
+	<dependency>
+	<groupId>com.squareup.okio</groupId>
+	<artifactId>okio</artifactId>
+	<version>1.14.0</version>
+	<classifier/>
+	</dependency> -->
+    
+	<!--  SELENIUM DEPENDENCY - ENDs -->    
+	
+	<!-- POI API for EXCEL Handling - BEGINs -->
+	<dependency>
+	    <groupId>org.apache.poi</groupId>
+	    <artifactId>poi</artifactId>
+	    <version>3.9</version>
+	</dependency>
+	
+	<dependency>
+	    <groupId>org.apache.poi</groupId>
+	    <artifactId>poi-ooxml</artifactId>
+	    <version>3.9</version>
+	</dependency>
+	<!-- POI API for EXCEL Handling - ENDs -->
+	
+	
+		<!-- https://mvnrepository.com/artifact/org.apache.commons/commons-exec -->
+		<!-- 
+	<dependency>
+	    <groupId>org.apache.commons</groupId>
+	    <artifactId>commons-exec</artifactId>
+	    <version>1.3</version>
+	</dependency> 
+	-->
+	
+	<!-- Capture Screen Shots - BEGINs -->
+	<!-- https://mvnrepository.com/artifact/commons-io/commons-io -->
+	<dependency>
+	    <groupId>commons-io</groupId>
+	    <artifactId>commons-io</artifactId>
+	    <version>2.6</version>
+	</dependency>
+	<!-- Capture Screen Shots - BEGINs -->
+	
+
+	
+
+
+   
+</dependencies>
+<!--    Dependency Jars Entry -ENDs --> 
+</project>
