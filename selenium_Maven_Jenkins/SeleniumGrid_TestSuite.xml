@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="Suite" parallel="classes" thread-count="2" preserve-order="true"> 
+  
+  <test name="grid_executions"> <!-- preserve-order="true" execute the methods or classes in the below order preserve-order="false" executes randomly -->
+    <classes>    
+     <class name="pages.SeleniumGrid"/>
+    </classes>
+  </test>  
+  
+</suite>
