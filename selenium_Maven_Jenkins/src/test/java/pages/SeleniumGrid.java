@@ -13,7 +13,7 @@ import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
 public class SeleniumGrid {
-	// Ref: https://www.browserstack.com/guide/selenium-grid-tutorial
+	//  Ref: https://www.browserstack.com/guide/selenium-grid-tutorial
 	// http://www.software-testing-tutorials-automation.com/2016/04/running-multiple-nodes-of-selenium-grid.html
 	// Hub config: http://www.software-testing-tutorials-automation.com/2016/02/selenium-grid-2-configuration-setup-hub.html
 	// Node config in HUB: http://www.software-testing-tutorials-automation.com/2016/03/how-to-configure-selenium-grid-2-node.html
