@@ -2,8 +2,15 @@ package pages;
 
 import java.util.concurrent.TimeUnit;
 
+import org.openqa.selenium.By;
+import org.openqa.selenium.By.ByXPath;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.interactions.Action;
+import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.Test;
 
 public class wait_Time {
@@ -100,7 +107,34 @@ public class wait_Time {
 			driver.get("http://demo.guru99.com/test/guru99home/");
 			//Maximizes the browser window
 			driver.manage().window().maximize();
-			//get the actual value of the title	 
+			//get the actual value of the title	
+			
+			Actions actions = new Actions(driver);
+			WebElement alink1 = driver.findElement(By.xpath("//*[@id=\"rt-header\"]/div/div[2]/div/ul/li[2]/a"));
+			WebElement alink2 = driver.findElement(By.xpath("//*[@id=\"rt-header\"]/div/div[2]/div/ul/li[2]/div/div/ul/li[4]/a"));
+			//Action mouseOverHomeLink = actions.moveToElement(alink1).build();
+			Action mouseOverHomeLink = actions.moveToElement(alink1).moveToElement(alink2).build();
+			mouseOverHomeLink.perform();
+			
+//			// implicit wait
+//			// syntax: driver.manage().timeouts().implicitlyWait(TimeOut, TimeUnit.SECONDS);
+//			driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+//			System.out.println("After 30 seconds");
+//			 
+//			WebElement alink2 = driver.findElement(By.xpath("//*[@id=\"rt-header\"]/div/div[2]/div/ul/li[2]/div/div/ul/li[4]/a"));
+//			Action mouseOverHomeLink1 = actions.moveToElement(alink2).build();
+//			mouseOverHomeLink1.perform();
+//			// explicit wait
+//			
+//			// Syntax: WebDriverWait wait = new WebDriverWait(WebDriverRefrence,TimeOut);  // TimeOut (in seconds)
+//			WebDriverWait wait = new WebDriverWait(driver,15);
+//			//WebElement alink3 = driver.findElement(By.xpath("//*[@id=\"rt-header\"]/div/div[2]/div/ul/li[2]/div/div/ul/li[4]/div/div/ul/li[2]/a"));
+//			WebElement alink3;
+//			alink3 = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id=\"rt-header\"]/div/div[2]/div/ul/li[2]/div/div/ul/li[4]/div/div/ul/li[2]/a")));
+//			
+//			Action mouseOverHomeLink2 = actions.moveToElement(alink3).click().build();
+//			mouseOverHomeLink2.perform();
+//			
 			
 			
   }
